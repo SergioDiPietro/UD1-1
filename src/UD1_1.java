@@ -8,7 +8,54 @@ El cálculo de la media consiste en sumar las cuatro calificaciones y dividirlas
 Para finalizar, tendrás que mostrar por pantalla una fila por cada estudiante con sus cuatro calificaciones y su media.
 Esta misma información tendrás que guardarla en un fichero en el mismo directorio donde se encuentre el ejecutable del programa.*/
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 public class UD1_1 {
     public static void main(String[] args) {
+        final String RUTA = "C:\\Users\\Sergio\\Clases\\2DAM\\Programacion Multimedia\\Tema 1\\UD1-1\\src\\Listado.csv";
+        final short CANTIDAD_ALUMNOS = 10;
+
+        ArrayList<String> arrAlumnos = listToArrayList(RUTA);
+        ArrayList<String> arrFinal = listPicks(arrAlumnos, CANTIDAD_ALUMNOS);
+    }
+
+    public static ArrayList<String> listToArrayList(String ruta) {
+        FileReader fr = null;
+        BufferedReader br = null;
+        ArrayList<String> arrNombres = new ArrayList<>();
+
+        try {
+            br = new BufferedReader(new FileReader(ruta));
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                arrNombres.add(linea);
+            }
+            arrNombres.remove(0);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != br) {
+                    br.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return arrNombres;
+    }
+
+    public static ArrayList<String> listPicks(ArrayList<String> arr, int picks) {
+        ArrayList<String> arrFinal = new ArrayList<>();
+        for (int i=0; i<picks; i++) {
+            short num = (short)(Math.random()*arr.size());
+            arrFinal.add(arr.get(num));
+            arr.remove(num);
+        }
+        return arrFinal;
     }
 }
